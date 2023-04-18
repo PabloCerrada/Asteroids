@@ -1,0 +1,85 @@
+﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(503,5): warning MSB8004: El directorio Output no termina con una barra diagonal final. Esta instancia de compilación agregará la barra diagonal porque es necesaria para que se pueda evaluar correctamente el directorio Output.
+  AsteroidsSystem.cpp
+C:\Users\PC\Documents\GitHub\MeCagoEnMisMuertos2\Proyecto\TPV2\TPV2\AsteroidsSystem.cpp(67,45): warning C4244: '=': conversión de 'Uint32' a 'float'; posible pérdida de datos
+C:\Users\PC\Documents\GitHub\MeCagoEnMisMuertos2\Proyecto\TPV2\TPV2\AsteroidsSystem.cpp(80,46): warning C4244: '=': conversión de 'Uint32' a 'float'; posible pérdida de datos
+C:\Users\PC\Documents\GitHub\MeCagoEnMisMuertos2\Proyecto\TPV2\TPV2\AsteroidsSystem.cpp(95,17): warning C4244: 'inicializando': conversión de 'float' a 'int'; posible pérdida de datos
+C:\Users\PC\Documents\GitHub\MeCagoEnMisMuertos2\Proyecto\TPV2\TPV2\AsteroidsSystem.cpp(95,58): warning C4244: 'inicializando': conversión de 'float' a 'int'; posible pérdida de datos
+C:\Users\PC\Documents\GitHub\MeCagoEnMisMuertos2\Proyecto\TPV2\TPV2\AsteroidsSystem.cpp(99,35): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\PC\Documents\GitHub\MeCagoEnMisMuertos2\Proyecto\TPV2\TPV2\AsteroidsSystem.cpp(143,88): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\PC\Documents\GitHub\MeCagoEnMisMuertos2\Proyecto\TPV2\TPV2\AsteroidsSystem.cpp(143,47): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\PC\Documents\GitHub\MeCagoEnMisMuertos2\Proyecto\TPV2\TPV2\AsteroidsSystem.cpp(146,102): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\PC\Documents\GitHub\MeCagoEnMisMuertos2\Proyecto\TPV2\TPV2\AsteroidsSystem.cpp(146,47): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\PC\Documents\GitHub\MeCagoEnMisMuertos2\Proyecto\TPV2\TPV2\AsteroidsSystem.cpp(149,82): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\PC\Documents\GitHub\MeCagoEnMisMuertos2\Proyecto\TPV2\TPV2\AsteroidsSystem.cpp(149,47): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\PC\Documents\GitHub\MeCagoEnMisMuertos2\Proyecto\TPV2\TPV2\AsteroidsSystem.cpp(152,88): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\PC\Documents\GitHub\MeCagoEnMisMuertos2\Proyecto\TPV2\TPV2\AsteroidsSystem.cpp(152,47): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\PC\Documents\GitHub\MeCagoEnMisMuertos2\Proyecto\TPV2\TPV2\AsteroidsSystem.cpp(157,88): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\PC\Documents\GitHub\MeCagoEnMisMuertos2\Proyecto\TPV2\TPV2\AsteroidsSystem.cpp(157,50): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\PC\Documents\GitHub\MeCagoEnMisMuertos2\Proyecto\TPV2\TPV2\AsteroidsSystem.cpp(161,15): warning C4244: 'inicializando': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\PC\Documents\GitHub\MeCagoEnMisMuertos2\Proyecto\TPV2\TPV2\AsteroidsSystem.cpp(161,34): warning C4244: 'inicializando': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\PC\Documents\GitHub\MeCagoEnMisMuertos2\Proyecto\TPV2\TPV2\Manager.h(58,27): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\PC\Documents\GitHub\MeCagoEnMisMuertos2\Proyecto\TPV2\TPV2\AsteroidsSystem.cpp(101,77): message : Vea la referencia a la creación de una instancia de la función plantilla "T *Manager::addComponent<Transform,Vector2D&,Vector2D&,int&,int&,int&>(Entity *,Vector2D &,Vector2D &,int &,int &,int &)" que se está compilando
+          with
+          [
+              T=Transform
+          ]
+  BulletSystem.cpp
+C:\Users\PC\Documents\GitHub\MeCagoEnMisMuertos2\Proyecto\TPV2\TPV2\Manager.h(58,27): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\PC\Documents\GitHub\MeCagoEnMisMuertos2\Proyecto\TPV2\TPV2\BulletSystem.cpp(59,74): message : Vea la referencia a la creación de una instancia de la función plantilla "T *Manager::addComponent<Transform,Vector2D&,Vector2D&,double&,double&,double&>(Entity *,Vector2D &,Vector2D &,double &,double &,double &)" que se está compilando
+          with
+          [
+              T=Transform
+          ]
+  CollisionSystem.cpp
+  Entity.cpp
+  FighterSystem.cpp
+C:\Users\PC\Documents\GitHub\MeCagoEnMisMuertos2\Proyecto\TPV2\TPV2\src\sdlutils\SDLUtils.h(50,32): warning C4101: 'e': variable local sin referencia
+C:\Users\PC\Documents\GitHub\MeCagoEnMisMuertos2\Proyecto\TPV2\TPV2\src\sdlutils\SDLUtils.h(47,1): message : al compilar la función del miembro clase plantilla "SoundEffect &SDLUtils::map_access_wrapper<SoundEffect>::at(std::string)"
+C:\Users\PC\Documents\GitHub\MeCagoEnMisMuertos2\Proyecto\TPV2\TPV2\src\sdlutils\SDLUtils.h(194,34): message : Vea la referencia a la creación de una instancia de clase plantilla "SDLUtils::map_access_wrapper<SoundEffect>" que se está compilando
+C:\Users\PC\Documents\GitHub\MeCagoEnMisMuertos2\Proyecto\TPV2\TPV2\FighterSystem.cpp(90,43): warning C4244: '=': conversión de 'Uint32' a 'float'; posible pérdida de datos
+C:\Users\PC\Documents\GitHub\MeCagoEnMisMuertos2\Proyecto\TPV2\TPV2\FighterSystem.cpp(119,94): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\PC\Documents\GitHub\MeCagoEnMisMuertos2\Proyecto\TPV2\TPV2\FighterSystem.cpp(119,58): warning C4244: 'argumento': conversión de 'double' a 'float'; posible pérdida de datos
+  Follow.cpp
+  FramedImage.cpp
+  Game.cpp
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\ucrt\crtdbg.h(307,1): warning C4005: '_malloca': redefinición de macro
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\ucrt\malloc.h(124,1): message : vea la definición anterior de '_malloca'
+  GameCtrlSystem.cpp
+  GameStateMachine.cpp
+C:\Users\PC\Documents\GitHub\MeCagoEnMisMuertos2\Proyecto\TPV2\TPV2\GameStateMachine.cpp(53,27): warning C4267: 'return': conversión de 'size_t' a 'int'; posible pérdida de datos
+  Health.cpp
+  Image.cpp
+  MainMenuState.cpp
+  Manager.cpp
+  Message.cpp
+  PauseState.cpp
+  PlayState.cpp
+  RenderSystem.cpp
+C:\Users\PC\Documents\GitHub\MeCagoEnMisMuertos2\Proyecto\TPV2\TPV2\src\sdlutils\SDLUtils.h(50,32): warning C4101: 'e': variable local sin referencia
+C:\Users\PC\Documents\GitHub\MeCagoEnMisMuertos2\Proyecto\TPV2\TPV2\src\sdlutils\SDLUtils.h(47,1): message : al compilar la función del miembro clase plantilla "Font &SDLUtils::map_access_wrapper<Font>::at(std::string)"
+C:\Users\PC\Documents\GitHub\MeCagoEnMisMuertos2\Proyecto\TPV2\TPV2\src\sdlutils\SDLUtils.h(191,27): message : Vea la referencia a la creación de una instancia de clase plantilla "SDLUtils::map_access_wrapper<Font>" que se está compilando
+C:\Users\PC\Documents\GitHub\MeCagoEnMisMuertos2\Proyecto\TPV2\TPV2\RenderSystem.cpp(48,35): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\PC\Documents\GitHub\MeCagoEnMisMuertos2\Proyecto\TPV2\TPV2\RenderSystem.cpp(68,46): warning C4244: '=': conversión de 'float' a 'int'; posible pérdida de datos
+C:\Users\PC\Documents\GitHub\MeCagoEnMisMuertos2\Proyecto\TPV2\TPV2\RenderSystem.cpp(69,46): warning C4244: '=': conversión de 'float' a 'int'; posible pérdida de datos
+C:\Users\PC\Documents\GitHub\MeCagoEnMisMuertos2\Proyecto\TPV2\TPV2\RenderSystem.cpp(70,37): warning C4244: '=': conversión de 'float' a 'int'; posible pérdida de datos
+C:\Users\PC\Documents\GitHub\MeCagoEnMisMuertos2\Proyecto\TPV2\TPV2\RenderSystem.cpp(71,37): warning C4244: '=': conversión de 'float' a 'int'; posible pérdida de datos
+  JSON.cpp
+  JSONValue.cpp
+  Generando código...
+  Compilando...
+  json_demo.cpp
+  main.cpp
+  SDLUtils.cpp
+  sdlutils_demo.cpp
+C:\Users\PC\Documents\GitHub\MeCagoEnMisMuertos2\Proyecto\TPV2\TPV2\src\sdlutils\SDLUtils.h(50,32): warning C4101: 'e': variable local sin referencia
+C:\Users\PC\Documents\GitHub\MeCagoEnMisMuertos2\Proyecto\TPV2\TPV2\src\sdlutils\SDLUtils.h(47,1): message : al compilar la función del miembro clase plantilla "Texture &SDLUtils::map_access_wrapper<Texture>::at(std::string)"
+C:\Users\PC\Documents\GitHub\MeCagoEnMisMuertos2\Proyecto\TPV2\TPV2\src\sdlutils\SDLUtils.h(192,30): message : Vea la referencia a la creación de una instancia de clase plantilla "SDLUtils::map_access_wrapper<Texture>" que se está compilando
+  SoundEffect.cpp
+  Texture.cpp
+  Collisions.cpp
+  Vector2D.cpp
+  System.cpp
+  Transform.cpp
+  Generando código...
+     Creando biblioteca C:\Users\PC\Documents\GitHub\MeCagoEnMisMuertos2\Proyecto\TPV2\bin\TPV2Debug.lib y objeto C:\Users\PC\Documents\GitHub\MeCagoEnMisMuertos2\Proyecto\TPV2\bin\TPV2Debug.exp
+  TPV2.vcxproj -> C:\Users\PC\Documents\GitHub\MeCagoEnMisMuertos2\Proyecto\TPV2\bin\TPV2Debug.exe

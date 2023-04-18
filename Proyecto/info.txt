@@ -1,0 +1,5 @@
+Francisco Miguel Galván Muñoz
+Pablo Cerrada Vega
+
+OPCIONALES:
+-Cargamos las texturas y sonidos desde un JSON.
