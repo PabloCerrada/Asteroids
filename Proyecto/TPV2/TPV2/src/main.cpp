@@ -5,7 +5,7 @@
 #include "sdlutils/sdlutils_demo.h"
 #include <stdio.h>
 #include "../Game.h"
-
+#include <SDL_net.h>
 
 using namespace std;
 
@@ -17,9 +17,13 @@ int main(int ac, char **av) {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF); // To detect trash
 
 	try {
+		if (SDLNet_Init() < 0) {
+			throw "Error de conexion";
+		}
 		Game* game = new Game();
 		game->run();
 		delete game;
+		SDLNet_Quit();
 	} catch (const std::string &e) { // catch exceptions thrown as strings
 		std::cerr << e << std::endl;
 	} catch (const char *e) { // catch exceptions thrown as char*
