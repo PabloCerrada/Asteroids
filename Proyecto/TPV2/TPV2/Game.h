@@ -13,6 +13,8 @@
 #include "PlayState.h"
 #include "MainMenuState.h"
 #include "PauseState.h"
+#include <SDL_net.h>
+
 
 using namespace std;
 using uint = unsigned int;
@@ -28,7 +30,7 @@ class Game {
 private:
 	SDL_Window* window = nullptr;
 	SDL_Renderer* renderer = nullptr;
-	bool exit = false; // control booleans
+	bool end = false; // control booleans
 public:
 	Game();
 	~Game();
@@ -41,5 +43,9 @@ public:
 	static void pauseFunction(Game* game);
 	static void returnToGame(Game* game);
 	static void returnToMainMenu(Game* game);
+
+	void server(int port);
+	void client(char* host, int port);
+
 };
 
