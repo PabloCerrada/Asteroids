@@ -44,11 +44,16 @@ void GameCtrlSystem::update() {
 			game->setExit();
 		}
 
-		if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_SPACE && GameStateMachine::instance()->currentState()->getStateId()!="PlayState")
+		if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_SPACE && GameStateMachine::instance()->currentState()->getStateId() == "MainMenuState")
 		{
 			winner_ = 0;
 			game->playFunction(game);
 		} 
+		else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_m && GameStateMachine::instance()->currentState()->getStateId() == "MainMenuState")
+		{
+			winner_ = 0;
+			game->multiplayerFunction(game);
+		}
 
 		if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_SPACE && GameStateMachine::instance()->currentState()->getStateId() == "PlayState" && winner_ == 1)
 		{

@@ -1,6 +1,4 @@
 ﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(503,5): warning MSB8004: El directorio Output no termina con una barra diagonal final. Esta instancia de compilación agregará la barra diagonal porque es necesaria para que se pueda evaluar correctamente el directorio Output.
-  Game.cpp
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\ucrt\crtdbg.h(307,1): warning C4005: '_malloca': redefinición de macro
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\ucrt\malloc.h(124,1): message : vea la definición anterior de '_malloca'
-C:\Users\PC\Documents\GitHub\MeCagoEnMisMuertos3\Proyecto\TPV2\TPV2\Game.cpp(129,32): warning C4267: 'inicializando': conversión de 'size_t' a 'int'; posible pérdida de datos
+  MultiplayerState.cpp
+C:\Users\PC\Documents\GitHub\MeCagoEnMisMuertos3\Proyecto\TPV2\TPV2\MultiplayerState.cpp(157,32): warning C4267: 'inicializando': conversión de 'size_t' a 'int'; posible pérdida de datos
   TPV2.vcxproj -> C:\Users\PC\Documents\GitHub\MeCagoEnMisMuertos3\Proyecto\TPV2\bin\TPV2Debug.exe

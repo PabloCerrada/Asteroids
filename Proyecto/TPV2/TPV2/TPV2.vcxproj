@@ -37,6 +37,7 @@
     <ClInclude Include="MainMenuState.h" />
     <ClInclude Include="Manager.h" />
     <ClInclude Include="Message.h" />
+    <ClInclude Include="MultiplayerState.h" />
     <ClInclude Include="PauseState.h" />
     <ClInclude Include="PlayState.h" />
     <ClInclude Include="RenderSystem.h" />
@@ -79,6 +80,7 @@
     <ClCompile Include="MainMenuState.cpp" />
     <ClCompile Include="Manager.cpp" />
     <ClCompile Include="Message.cpp" />
+    <ClCompile Include="MultiplayerState.cpp" />
     <ClCompile Include="PauseState.cpp" />
     <ClCompile Include="PlayState.cpp" />
     <ClCompile Include="RenderSystem.cpp" />

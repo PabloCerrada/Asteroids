@@ -25,5 +25,4 @@ public:
 	inline void setGameover(bool newValue) { gameover = newValue; }
 	inline Game* getGame() { return game; }
 	void MainMenu();
-	virtual string getStateID() { return "PLAY"; };
 };

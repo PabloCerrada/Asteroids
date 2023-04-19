@@ -13,6 +13,7 @@
 #include "PlayState.h"
 #include "MainMenuState.h"
 #include "PauseState.h"
+#include "MultiplayerState.h"
 #include <SDL_net.h>
 
 
@@ -38,6 +39,7 @@ public:
 	void update();
 	void refresh();
 	void setExit();
+	static void multiplayerFunction(Game* game);
 	static void playFunction(Game* game);
 	static void exitFunction(Game* game);
 	static void pauseFunction(Game* game);

@@ -109,7 +109,8 @@ void RenderSystem::update() {
 	}
 	// Render MainMenu
 	else if (GameStateMachine::instance()->currentState()->getStateId() == "MainMenuState") {
-		font->render(SDLUtils::instance()->renderer(), "MENU: PRESS SPACE TO CONTINUE", (WIN_WIDTH / 2) - 100, WIN_HEIGHT / 2, s);
+		font->render(SDLUtils::instance()->renderer(), "MENU: PRESS SPACE TO SINGLEPLAYER", (WIN_WIDTH / 2) - 150, WIN_HEIGHT / 2 - 50, s);
+		font->render(SDLUtils::instance()->renderer(), "MENU: PRESS M TO MULTIPLAYER", (WIN_WIDTH / 2) - 150, WIN_HEIGHT / 2 + 50, s);
 	}
 	SDL_RenderPresent(SDLUtils::instance()->renderer());
 }
