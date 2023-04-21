@@ -15,10 +15,12 @@ private:
 	SoundEffect* soundFire;
 	SoundEffect* soundCrash;
 	Entity* fighter;
+	Entity* fighter2;
 
 	float lastShootTime;
 	bool canShoot = false;
 	Transform* trFighter;
+	Transform* trFighter2;
 	float acceleration = 0.2f, speedLimit = 3.0f;
 	
 	// Para reaccionar al mensaje de que ha habido un choque entre el fighter y un
@@ -45,6 +47,8 @@ public:
 	// Crear la entidad del caza, añadir sus componentes, asociarla con un handler
 	// correspondiente, etc.
 	void initSystem() override;
+
+	void updateFighter2(Vector2D pos, Vector2D vel, float rotation);
 
 	// Si el juego está parado no hacer nada, en otro caso actualizar la velocidad
 	// del caza y moverlo como en la práctica 1 (acelerar, desacelerar, etc). Además, 

@@ -12,6 +12,8 @@ private:
 	// vel.angle(Vector2D(0.0f,-1.0f))
 	void shoot(Vector2D pos, Vector2D vel, double width, double height, double rotation);
 
+
+	
 	// Para gestionar el mensaje de que ha habido un choque entre una bala y un
 	// asteroide. Desactivar la bala “b”.
 	void onCollision_BulletAsteroid(Entity* b);
@@ -37,7 +39,10 @@ public:
 	void receive(const Message& m) override;
 	// Inicializar el sistema, etc.
 	void initSystem() override;
-	// Si el juego está parado no hacer nada, en otro caso mover las balas y
+
+	void createBullet(float posX, float posY, float velX, float velY, double rotation, float width, float height);
+
+ 	// Si el juego está parado no hacer nada, en otro caso mover las balas y
 	// desactivar las que salen de la ventana como en la práctica 1.
 	void update() override;
 

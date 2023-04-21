@@ -10,6 +10,7 @@ PlayState::PlayState(Game* game1) {
 	sys_[_sys_FIGHTER] = nullptr;
 	sys_[_sys_GAMECTRL] = nullptr;
 	sys_[_sys_BULLET] = nullptr;
+	sys_[_sys_NET] = nullptr;
 	
 	bulletSystem = addSystem<BulletSystem>();
 	fighterSystem = addSystem<FighterSystem>();

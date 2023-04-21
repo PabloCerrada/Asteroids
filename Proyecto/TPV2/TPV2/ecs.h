@@ -18,6 +18,19 @@ enum msgId : msgId_type {
 	
 	_LAST_MSG_ID
 };
+
+using netMsgId_type = int;
+enum netMessage : netMsgId_type
+{
+	_net_BULLETSHOT = 0,
+	_net_NEWFIGHERPOS_ =1,
+
+
+
+	_LAST_NETMSG_ID
+};
+constexpr netMsgId_type maxNetMsg= _LAST_NETMSG_ID;
+
 using cmpId_type = int;
 enum cmpId : cmpId_type {
 	// ... (compoment ids)
@@ -55,6 +68,7 @@ enum sysId : sysId_type {
 	_sys_GAMECTRL = 3,
 	_sys_FIGHTER = 4,
 	_sys_BULLET = 5,
+	_sys_NET =6,
 	// do not remove this
 	_LAST_SYS_ID
 };
@@ -64,6 +78,7 @@ using hdlrId_type = int;
 enum hdlrId : hdlrId_type {
 
 	_hdlr_FIGHTER = 0,
+	_hdlr_FIGHTER2=1,
 	// do not remove this
 	_LAST_HDLR_ID
 };

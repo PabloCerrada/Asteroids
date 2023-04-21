@@ -10,6 +10,7 @@ void RenderSystem::initSystem() {
 	healthTexture = &SDLUtils::instance()->images().at("heart");
 	if (mngr_->getStateId() == "PlayState") {
 		fighterTransform = mngr_->getComponent<Transform>(mngr_->getHandler(_hdlr_FIGHTER));
+		fighterTransform2 = mngr_->getComponent<Transform>(mngr_->getHandler(_hdlr_FIGHTER2));
 		lives = mngr_->getComponent<Health>(mngr_->getHandler(_hdlr_FIGHTER))->getLifes();
 		fighterTexture = &SDLUtils::instance()->images().at("fighter");
 		bulletTexture = &SDLUtils::instance()->images().at("fire");
@@ -51,7 +52,9 @@ void RenderSystem::update() {
 		}
 		if (winner_ == 0) {
 			SDL_Rect dest = build_sdlrect(fighterTransform->getPos(), fighterTransform->getW(), fighterTransform->getH());
+			SDL_Rect dest2 = build_sdlrect(fighterTransform2->getPos(), fighterTransform2->getW(), fighterTransform2->getH());
 			fighterTexture->render(dest, fighterTransform->getR());
+			fighterTexture->render(dest2, fighterTransform2->getR());
 
 			// Render bullets
 			for (auto it : mngr_->getEntitiesByGroup(_grp_BULLETS)) { 

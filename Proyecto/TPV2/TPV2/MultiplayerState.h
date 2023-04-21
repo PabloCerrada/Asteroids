@@ -6,7 +6,7 @@
 #include "BulletSystem.h"
 #include "AsteroidsSystem.h"
 #include "CollisionSystem.h"
-
+#include "NetSystem.h"
 class Game;
 class MultiplayerState : public Manager
 {
@@ -16,11 +16,12 @@ private:
 	GameCtrlSystem* gameCrtlSystem;
 	BulletSystem* bulletSystem;
 	CollisionSystem* collisionSystem;
+	NetSystem* netSystem;
 	bool gameover = false, win = false; // control booleans
 	Game* game;
 
-	int port_ = 9999;
-	bool iAmServer;
+	//int port_ = 9999;
+	//bool iAmServer;
 public:
 	MultiplayerState(Game* game1);
 	virtual ~MultiplayerState();
@@ -28,6 +29,6 @@ public:
 	inline void setGameover(bool newValue) { gameover = newValue; }
 	inline Game* getGame() { return game; }
 	void MainMenu();
-	void server(int port);
-	void client(char* host, int port);
+	/*void server(int port);
+	void client(char* host, int port);*/
 };

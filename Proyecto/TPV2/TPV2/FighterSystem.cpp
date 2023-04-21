@@ -27,18 +27,23 @@ void FighterSystem::receive(const Message& m)
 void FighterSystem::initSystem()
 {
 	fighter = mngr_->addEntity(_grp_FIGHTER);
+	fighter2 = mngr_->addEntity(_grp_FIGHTER);
 	mngr_->setHandler(_hdlr_FIGHTER, fighter);
+	mngr_->setHandler(_hdlr_FIGHTER2, fighter2);
 	fighter->setContext(mngr_);
+	fighter2->setContext(mngr_);
 
 	Vector2D velIni = Vector2D(0, 0);
 	float width = 44, height = 38.5, rotationIni = 1;
 	Vector2D posIni = Vector2D(WIN_WIDTH / 2 - width / 2, WIN_HEIGHT / 2 - height / 2);
-
+	Vector2D posIni2 = Vector2D(WIN_WIDTH - width / 2, WIN_HEIGHT / 2 - height / 2);
 	trFighter = mngr_->addComponent<Transform>(fighter, posIni, velIni, width, height, rotationIni);
+	trFighter2 = mngr_->addComponent<Transform>(fighter2, posIni2, velIni, width, height, rotationIni);
 
 	int maxLifes = 3;
 	mngr_->addComponent<Health>(fighter, maxLifes);
-
+	mngr_->addComponent<Health>(fighter2, maxLifes);
+	
 	soundThrust = &SDLUtils::instance()->soundEffects().at("thrust");
 	soundThrust->setVolume(70);
 
@@ -50,6 +55,12 @@ void FighterSystem::initSystem()
 	
 }
 
+void FighterSystem::updateFighter2(Vector2D pos, Vector2D vel, float rotation)
+{
+	trFighter2->setPos(pos);
+	trFighter2->setVel(vel);
+	trFighter2->setR(rotation);
+}
 void FighterSystem::update()
 {
 	if (active_)

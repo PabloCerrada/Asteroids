@@ -55,7 +55,6 @@ void BulletSystem::update()
 void BulletSystem::shoot(Vector2D pos, Vector2D vel, double width, double height, double rotation)
 {
 	Entity* bullet = mngr_->addEntity(_grp_BULLETS);
-
 	mngr_->addComponent<Transform>(bullet, pos, vel, width, height, rotation);
 }
 
@@ -71,6 +70,14 @@ void BulletSystem::onRoundOver()
 		mngr_->setAlive(e, false);
 	}
 	active_ = false;
+}
+
+void BulletSystem::createBullet(float posX, float posY, float velX, float velY,double rotation,float width,float height)
+{
+	Entity* bullet = mngr_->addEntity(_grp_BULLETS);
+	Vector2D pos = { posX,posY };
+	Vector2D vel = { velX,velY };
+	mngr_->addComponent<Transform>(bullet, pos, vel, width, height, rotation);
 }
 void BulletSystem::onRoundStart()
 {

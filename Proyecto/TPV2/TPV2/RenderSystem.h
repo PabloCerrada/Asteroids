@@ -30,6 +30,7 @@ private:
 	Texture* asteroidTexture;
 	Texture* asteroidGoldTexture;
 	Transform* fighterTransform;
+	Transform* fighterTransform2;
 	Font* font;
 	SDL_Color s = { 255,0,0 };
 
