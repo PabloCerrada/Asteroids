@@ -1,6 +1,7 @@
 #include "BulletSystem.h"
 #include "Manager.h"
 #include "Game.h"
+#include "NetSystem.h"
 
 void BulletSystem::initSystem()
 {
@@ -56,6 +57,12 @@ void BulletSystem::shoot(Vector2D pos, Vector2D vel, double width, double height
 {
 	Entity* bullet = mngr_->addEntity(_grp_BULLETS);
 	mngr_->addComponent<Transform>(bullet, pos, vel, width, height, rotation);
+	//MANDO EL MENSAJE DE PINTAR MIS BALAS
+	if (mngr_->getStateId()=="Multiplayer")
+	{
+		mngr_->getSystem<NetSystem>()->createBullet(pos, vel, rotation);
+	}
+
 }
 
 void BulletSystem::onCollision_BulletAsteroid(Entity* b)
@@ -73,7 +80,8 @@ void BulletSystem::onRoundOver()
 }
 
 void BulletSystem::createBullet(float posX, float posY, float velX, float velY,double rotation,float width,float height)
-{
+{		
+	//PINTA LAS BALAS DEL OTRO PLAYER QUE NO SOY YO
 	Entity* bullet = mngr_->addEntity(_grp_BULLETS);
 	Vector2D pos = { posX,posY };
 	Vector2D vel = { velX,velY };

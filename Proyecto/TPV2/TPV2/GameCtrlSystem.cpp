@@ -22,6 +22,16 @@ void GameCtrlSystem::receive(const Message& m) {
 	case _msg_MAINMENU:
 		static_cast<PlayState*>(mngr_)->MainMenu();
 		break;
+	case _msg_DEATHMULTIPLAYER:
+		if (m.endOfRound.deathFighter1)
+		{
+			winnerMultiplayer = 2;
+		}
+		else
+		{
+			winnerMultiplayer = 1;
+		}
+		break;
 	default:
 		break;
 	}

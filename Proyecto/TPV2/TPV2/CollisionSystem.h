@@ -10,6 +10,7 @@ class CollisionSystem : public System
 
 private:
 	Transform* trFighter;
+	Transform* trFighter2;
 	// Para gestionar el mensaje de que ha acabado una ronda. Desactivar el sistema.
 	void onRoundOver();
 

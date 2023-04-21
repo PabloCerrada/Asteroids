@@ -17,4 +17,11 @@ struct Message
 		double width, height;
 		float rotation;
 	} bullet;
+
+	struct 
+	{
+		bool deathFighter1;
+		bool deathFighter2;
+	} endOfRound;
+
 };

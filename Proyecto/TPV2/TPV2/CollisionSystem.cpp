@@ -4,6 +4,10 @@
 void CollisionSystem::initSystem()
 {
 	trFighter = mngr_->getComponent<Transform>(mngr_->getHandler(_hdlr_FIGHTER));
+	if (mngr_->getStateId()=="Multiplayer")
+	{
+		trFighter2 = mngr_->getComponent<Transform>(mngr_->getHandler(_hdlr_FIGHTER2));
+	}
 }
 
 
@@ -41,25 +45,50 @@ void CollisionSystem::onRoundStart()
 	active_ = true;
 }
 
-// Method that manage collision asteroid - bullet and asteroid - player
+// Method that manage collision asteroid - bullet and asteroid - player - bullet and player
 void CollisionSystem::checkCollision() { 
-	for (auto ast : mngr_->getEntitiesByGroup(_grp_ASTEROIDS)) {
-		Transform* astTr = mngr_->getComponent<Transform>(ast);
-		for (auto bull : mngr_->getEntitiesByGroup(_grp_BULLETS)) {
+	if (mngr_->getStateId()=="Playstate")
+	{
 
-			Transform* bullTr = mngr_->getComponent<Transform>(bull);
-			if (Collisions::collidesWithRotation(astTr->getPos(), astTr->getW(), astTr->getH(), astTr->getR(), bullTr->getPos(), bullTr->getW(), bullTr->getH(), bullTr->getR())) {
+		for (auto ast : mngr_->getEntitiesByGroup(_grp_ASTEROIDS)) {
+			Transform* astTr = mngr_->getComponent<Transform>(ast);
+			for (auto bull : mngr_->getEntitiesByGroup(_grp_BULLETS)) {
+
+				Transform* bullTr = mngr_->getComponent<Transform>(bull);
+				if (Collisions::collidesWithRotation(astTr->getPos(), astTr->getW(), astTr->getH(), astTr->getR(), bullTr->getPos(), bullTr->getW(), bullTr->getH(), bullTr->getR())) {
+					Message m;
+					m.id = _msg_ONCOLLISIONBULLETASTEROID;
+					m.colision.asteroid = ast;
+					m.colision.bullet = bull;
+					mngr_->send(m);
+				}
+			}
+			if (Collisions::collidesWithRotation(astTr->getPos(), astTr->getW(), astTr->getH(), astTr->getR(), trFighter->getPos(), trFighter->getW(), trFighter->getH(), trFighter->getR())) {
 				Message m;
-				m.id = _msg_ONCOLLISIONBULLETASTEROID;
-				m.colision.asteroid = ast;
-				m.colision.bullet = bull;
- 				mngr_->send(m);
+				m.id = _msg_COLLISIONFIGHTER;
+				mngr_->send(m);
 			}
 		}
-		if (Collisions::collidesWithRotation(astTr->getPos(), astTr->getW(), astTr->getH(), astTr->getR(), trFighter->getPos(), trFighter->getW(), trFighter->getH(), trFighter->getR())) {
-			Message m;
-			m.id =_msg_COLLISIONFIGHTER;
-			mngr_->send(m);
+	}
+	else
+	{
+		for (auto bull : mngr_->getEntitiesByGroup(_grp_BULLETS))
+		{
+			Transform* bullTr = mngr_->getComponent<Transform>(bull);
+			if (Collisions::collidesWithRotation(trFighter->getPos(), trFighter->getW(), trFighter->getH(), trFighter->getR(), bullTr->getPos(), bullTr->getW(), bullTr->getH(), bullTr->getR())) {
+				Message m;
+				m.id = _msg_DEATHMULTIPLAYER;
+				m.endOfRound.deathFighter1 = true;
+				m.endOfRound.deathFighter2 = false;
+				mngr_->send(m);
+			}
+			else if(Collisions::collidesWithRotation(trFighter2->getPos(), trFighter2->getW(), trFighter2->getH(), trFighter2->getR(), bullTr->getPos(), bullTr->getW(), bullTr->getH(), bullTr->getR())) {
+				Message m;
+				m.id = _msg_DEATHMULTIPLAYER;
+				m.endOfRound.deathFighter1 = false;
+				m.endOfRound.deathFighter2 = true;
+				mngr_->send(m);
+			}
 		}
 	}
 }

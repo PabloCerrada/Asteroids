@@ -25,4 +25,5 @@ public:
 	inline bool isServer() { return imServer; }
 
 	void setFighter(Vector2D pos, Vector2D vel, float rotation);
+	void createBullet(Vector2D pos, Vector2D vel, float rotation);
 };

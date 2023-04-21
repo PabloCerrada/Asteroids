@@ -27,7 +27,6 @@ NetSystem::NetSystem()
 	}
 	else {
 		imServer = false;
-
 		// Pregunta por la IP
 		cout << "IP: ";
 		char host[1024];
@@ -85,6 +84,33 @@ void NetSystem::setFighter(Vector2D pos, Vector2D vel, float rotation)
 	SDLNet_UDP_Send(sock_, -1, p_);
 }
 
+void NetSystem::createBullet(Vector2D pos, Vector2D vel, float rotation)
+{
+	ShootMessage* me = static_cast<ShootMessage*>(message);
+	me->id = _net_BULLETSHOT;
+
+	me->x = pos.getX();
+	me->y = pos.getY();
+
+	me->velX = vel.getX();
+	me->velY = vel.getY();
+
+	me->rot = rotation;
+
+	me->height = 20;
+	me->width = 5;
+
+	p_->len = sizeof(ShootMessage);
+	SDLNet_UDP_Send(sock_, -1, p_);
+
+
+
+
+}
+
+
+
+
 void NetSystem::server(int port)
 {
 	sock_ = SDLNet_UDP_Open(port);
@@ -103,7 +129,7 @@ void NetSystem::server(int port)
 }
 void NetSystem::client(char* host, int port)
 {
-	sock_ = SDLNet_UDP_Open(0);
+	sock_ = SDLNet_UDP_Open(0);			//busca el puerto que este abierto
 	if (!sock_)
 	{
 		throw "asdasd";
@@ -117,12 +143,15 @@ void NetSystem::client(char* host, int port)
 	{
 		throw "asdasd";
 	}
-	cout << "a";
+	
 	message = reinterpret_cast<NetMessage*>(p_->data);
 	sockSet_ = SDLNet_AllocSocketSet(1);
 	SDLNet_UDP_AddSocket(sockSet_, sock_);
-	InitialMessage* ini = static_cast<InitialMessage*>(message);
+
+
+
+	
 	p_->address = ip;
 	SDLNet_UDP_Send(sock_, -1, p_);
-	//ENVIAS MENSAJE DICIENDO QUE QUIERES JUGAR con UDPSEND	
+	
 }

@@ -15,7 +15,7 @@ enum msgId : msgId_type {
 	_msg_COLLISIONFIGHTER = 6,
 	_msg_SHOOT = 7,	
 	_msg_MAINMENU = 8,
-	
+	_msg_DEATHMULTIPLAYER =9,
 	_LAST_MSG_ID
 };
 
