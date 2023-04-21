@@ -20,6 +20,7 @@ private:
 	bool gameover = false, win = false; // control booleans
 	Game* game;
 
+	
 	//int port_ = 9999;
 	//bool iAmServer;
 public:

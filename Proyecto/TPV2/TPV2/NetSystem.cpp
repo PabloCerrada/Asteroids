@@ -27,6 +27,7 @@ NetSystem::NetSystem()
 	}
 	else {
 		imServer = false;
+
 		// Pregunta por la IP
 		cout << "IP: ";
 		char host[1024];
@@ -42,19 +43,46 @@ void NetSystem:: update()
 	{
 		switch(message->id)
 		{
-
-		case _net_BULLETSHOT:
-			m = reinterpret_cast<ShootMessage*>(p_->data);
-			mngr_->getSystem<BulletSystem>()->createBullet(m->x, m->y, m->velX, m->velY, m->rot, m->width, m->height);
-			break;
-		case _net_NEWFIGHERPOS_:
-			me = reinterpret_cast<FighterPosMessage*>(p_->data);
-			/*mngr_->getSystem<FighterSystem>()*/
-			break;
-		default:
-			break;
+			case _net_BULLETSHOT:
+			{
+				ShootMessage* m = static_cast<ShootMessage*>(message);
+				m = reinterpret_cast<ShootMessage*>(p_->data);
+				mngr_->getSystem<BulletSystem>()->createBullet(m->x, m->y, m->velX, m->velY, m->rot, m->width, m->height);
+				break;
+			}
+			case _net_NEWFIGHERPOS_:
+			{
+				cout << "as";
+				FighterPosMessage* me = static_cast<FighterPosMessage*>(message);
+				me = reinterpret_cast<FighterPosMessage*>(p_->data);
+				Vector2D pos = { me->x,me->y };
+				Vector2D vel = { me->velX,me->velY };
+				mngr_->getSystem<FighterSystem>()->updateFighter2(pos, vel, me->rot);
+				break;
+			}		
+			default:
+				break;
 		}
 	}
+}
+
+void NetSystem::setFighter(Vector2D pos, Vector2D vel, float rotation)
+{
+	FighterPosMessage* me = static_cast<FighterPosMessage*>(message);
+	me->id = _net_NEWFIGHERPOS_;
+	me->x = pos.getX();
+	me->y = pos.getY();
+
+	me->velX = vel.getX();
+	me->velY = vel.getY();
+
+	me->rot = rotation;
+
+	me->width = 44;
+	me->height = 38.5;
+	
+	p_->len = sizeof(FighterPosMessage);
+	SDLNet_UDP_Send(sock_, -1, p_);
 }
 
 void NetSystem::server(int port)
@@ -89,8 +117,12 @@ void NetSystem::client(char* host, int port)
 	{
 		throw "asdasd";
 	}
+	cout << "a";
 	message = reinterpret_cast<NetMessage*>(p_->data);
 	sockSet_ = SDLNet_AllocSocketSet(1);
 	SDLNet_UDP_AddSocket(sockSet_, sock_);
+	InitialMessage* ini = static_cast<InitialMessage*>(message);
+	p_->address = ip;
+	SDLNet_UDP_Send(sock_, -1, p_);
 	//ENVIAS MENSAJE DICIENDO QUE QUIERES JUGAR con UDPSEND	
 }

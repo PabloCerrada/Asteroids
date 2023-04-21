@@ -28,3 +28,7 @@ struct FighterPosMessage :public NetMessage
 	float height;
 };
 
+struct InitialMessage:public NetMessage
+{
+	int n;
+};

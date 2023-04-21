@@ -17,6 +17,14 @@ void RenderSystem::initSystem() {
 		asteroidTexture = &SDLUtils::instance()->images().at("asteroid");
 		asteroidGoldTexture = &SDLUtils::instance()->images().at("asteroidGold");
 	}
+	else if(mngr_->getStateId()=="Multiplayer")
+	{
+		fighterTransform = mngr_->getComponent<Transform>(mngr_->getHandler(_hdlr_FIGHTER));
+		fighterTransform2 = mngr_->getComponent<Transform>(mngr_->getHandler(_hdlr_FIGHTER2));
+		lives = mngr_->getComponent<Health>(mngr_->getHandler(_hdlr_FIGHTER))->getLifes();
+		fighterTexture = &SDLUtils::instance()->images().at("fighter");
+		bulletTexture = &SDLUtils::instance()->images().at("fire");
+	}
 }
 
 void RenderSystem::receive(const Message& m) {
@@ -52,10 +60,9 @@ void RenderSystem::update() {
 		}
 		if (winner_ == 0) {
 			SDL_Rect dest = build_sdlrect(fighterTransform->getPos(), fighterTransform->getW(), fighterTransform->getH());
-			SDL_Rect dest2 = build_sdlrect(fighterTransform2->getPos(), fighterTransform2->getW(), fighterTransform2->getH());
+		
 			fighterTexture->render(dest, fighterTransform->getR());
-			fighterTexture->render(dest2, fighterTransform2->getR());
-
+			
 			// Render bullets
 			for (auto it : mngr_->getEntitiesByGroup(_grp_BULLETS)) { 
 				Transform* bulletTransform = mngr_->getComponent<Transform>(it);
@@ -104,6 +111,29 @@ void RenderSystem::update() {
 		// Render when asteoird crash into fighter and you have more lives
 		else if (winner_ == 1) {
 			font->render(SDLUtils::instance()->renderer(), "PRESS SPACE TO CONTINUE", (WIN_WIDTH / 2) - 100, WIN_HEIGHT / 2, s);
+		}
+	}
+	else if(GameStateMachine::instance()->currentState()->getStateId() == "Multiplayer")
+	{
+		for (int i = 0; i < lives; i++) // Render lives
+		{
+			Vector2D pos = Vector2D(55 * i + 5, 10);
+			SDL_Rect destRect = build_sdlrect(pos, 50, 50);
+			healthTexture->render(destRect);
+		}
+		if (winner_ == 0) {
+			SDL_Rect dest = build_sdlrect(fighterTransform->getPos(), fighterTransform->getW(), fighterTransform->getH());
+			SDL_Rect dest2 = build_sdlrect(fighterTransform2->getPos(), fighterTransform2->getW(), fighterTransform2->getH());
+			fighterTexture->render(dest, fighterTransform->getR());
+			fighterTexture->render(dest2, fighterTransform2->getR());
+
+			// Render bullets
+			for (auto it : mngr_->getEntitiesByGroup(_grp_BULLETS)) {
+				Transform* bulletTransform = mngr_->getComponent<Transform>(it);
+				SDL_Rect dest = build_sdlrect(bulletTransform->getPos(), bulletTransform->getW(), bulletTransform->getH());
+				bulletTexture->render(dest, bulletTransform->getR());
+			}
+			
 		}
 	}
 	// Render Pause

@@ -2,6 +2,8 @@
 #include "Manager.h"
 #include "BulletSystem.h"
 #include "Game.h"
+#include "NetSystem.h"
+#include "NetMessage.h"
 
 void FighterSystem::receive(const Message& m)
 {
@@ -54,99 +56,132 @@ void FighterSystem::initSystem()
 	soundCrash->setVolume(70);
 	
 }
+void FighterSystem:: fighterActions(Entity* ent_)
+{
+	Transform* tr = mngr_->getComponent<Transform>(ent_);
+
+	tr->setPos(tr->getPos() + tr->getVel());
+	
+	SDL_Event event;
+	InputHandler::instance()->update(event);
+	if (InputHandler::instance()->isKeyDown(SDL_SCANCODE_UP))
+	{
+		if (sqrt(pow(tr->getVel().getX(), 2) + pow(tr->getVel().getY(), 2)) < speedLimit)
+		{
+			tr->setVel(tr->getVel() + (Vector2D(0, -1).rotate(tr->getR()) * acceleration));
+		}
+		else
+		{
+			tr->setVel(tr->getVel().normalize() * speedLimit);
+		}
+		soundThrust->play();
+
+	}
+
+	// Rotation
+	if (InputHandler::instance()->isKeyDown(SDL_SCANCODE_LEFT))
+	{
+		tr->setR(tr->getR() - 5.0f);
+	}
+	else if (InputHandler::instance()->isKeyDown(SDL_SCANCODE_RIGHT))
+	{
+		tr->setR(tr->getR() + 5.0f);
+	}
+
+
+	//Gun
+	if (InputHandler::instance()->isKeyDown(SDL_SCANCODE_S) && canShoot) // Manage time
+	{
+		canShoot = false;
+		lastShootTime = sdlutils().currRealTime();
+		Message m;
+		m.id = _msg_SHOOT;
+		m.bullet.pos = tr->getPos() + Vector2D(tr->getW() / 2.0f, tr->getH() / 2.0f)
+			- Vector2D(0.0f, tr->getH() / 2.0f + 5.0f + 12.0f).rotate(tr->getR())
+			- Vector2D(2.0f, 10.0f);
+		m.bullet.vel = Vector2D(0.0f, -1.0f).rotate(tr->getR()) * (tr->getVel().magnitude() + 5.0f);
+		m.bullet.rotation = tr->getR();
+		m.bullet.height = 20;
+		m.bullet.width = 5;
+
+
+		soundFire->play();
+		mngr_->send(m);
+	}
+
+	//Gun
+	if (lastShootTime + 250 < sdlutils().currRealTime())
+	{
+		canShoot = true;
+	}
+
+	// Deceleration Component
+	if (sqrt(pow(tr->getVel().getX(), 2) + pow(tr->getVel().getY(), 2)) < 0.005)
+	{
+		tr->setVel(Vector2D(0, 0));
+	}
+	else
+	{
+		tr->setVel(Vector2D(tr->getVel().getX() * 0.995, tr->getVel().getY() * 0.995));
+	}
+
+	//This is the things that were done by ShowAtOpposideSide
+	if (tr->getPos().getX() > WIN_WIDTH) // Rightside
+	{
+		tr->setPos(Vector2D(-tr->getW(), tr->getPos().getY()));
+	}
+	else if (tr->getPos().getX() + tr->getW() < 0) // Leftside
+	{
+		tr->setPos(Vector2D(WIN_WIDTH, tr->getPos().getY()));
+	}
+	else if (tr->getPos().getY() > WIN_HEIGHT) // Downside
+	{
+		tr->setPos(Vector2D(tr->getPos().getX(), -tr->getH()));
+	}
+	else if (tr->getPos().getY() + tr->getH() < 0) // Upside
+	{
+		tr->setPos(Vector2D(tr->getPos().getX(), WIN_HEIGHT));
+	}
+
+
+
+	mngr_->getSystem<NetSystem>()->setFighter(tr->getPos(), tr->getVel(), tr->getR());
+}
 
 void FighterSystem::updateFighter2(Vector2D pos, Vector2D vel, float rotation)
 {
-	trFighter2->setPos(pos);
-	trFighter2->setVel(vel);
-	trFighter2->setR(rotation);
+	if (mngr_->getSystem<NetSystem>()->isServer())
+	{
+		trFighter->setPos(pos);
+		trFighter->setVel(vel);
+		trFighter->setR(rotation);
+	}
+	else
+	{
+		trFighter2->setPos(pos);
+		trFighter2->setVel(vel);
+		trFighter2->setR(rotation);
+	}
 }
 void FighterSystem::update()
 {
 	if (active_)
 	{
-		trFighter->setPos(trFighter->getPos() + trFighter->getVel());
-		SDL_Event event;
-		InputHandler::instance()->update(event);
-		if (InputHandler::instance()->isKeyDown(SDL_SCANCODE_UP))
+		if (GameStateMachine::instance()->currentState()->getStateId() == "Multiplayer")
 		{
-			if (sqrt(pow(trFighter->getVel().getX(), 2) + pow(trFighter->getVel().getY(), 2)) < speedLimit)
+			if (mngr_->getSystem<NetSystem>()->isServer())
 			{
-
-				trFighter->setVel(trFighter->getVel() + (Vector2D(0, -1).rotate(trFighter->getR()) * acceleration));
+				fighterActions(fighter);
 			}
 			else
 			{
-				trFighter->setVel(trFighter->getVel().normalize() * speedLimit);
-			}
-			soundThrust->play();
-				
-		}
-
-		// Rotation
-		if (InputHandler::instance()->isKeyDown(SDL_SCANCODE_LEFT))
-		{
-			trFighter->setR(trFighter->getR() - 5.0f);
-		}
-		else if (InputHandler::instance()->isKeyDown(SDL_SCANCODE_RIGHT))
-		{
-			trFighter->setR(trFighter->getR() + 5.0f);
-		}
-
-
-		//Gun
-		if (InputHandler::instance()->isKeyDown(SDL_SCANCODE_S) && canShoot) // Manage time
-		{
-			canShoot = false;
-			lastShootTime = sdlutils().currRealTime();
-			Message m;
-			m.id = _msg_SHOOT;
-			m.bullet.pos = trFighter->getPos() + Vector2D(trFighter->getW() / 2.0f, trFighter->getH() / 2.0f)
-				- Vector2D(0.0f, trFighter->getH() / 2.0f + 5.0f + 12.0f).rotate(trFighter->getR())
-				- Vector2D(2.0f, 10.0f);
-			m.bullet.vel = Vector2D(0.0f, -1.0f).rotate(trFighter->getR()) * (trFighter->getVel().magnitude() + 5.0f);
-			m.bullet.rotation = trFighter->getR();
-			m.bullet.height = 20;
-			m.bullet.width = 5;
-
-				
-			soundFire->play();
-			mngr_->send(m);
-		}
-		
-		//Gun
-		if (lastShootTime + 250 < sdlutils().currRealTime())
-		{
-			canShoot = true;
-		}
-
-		// Deceleration Component
-		if (sqrt(pow(trFighter->getVel().getX(), 2) + pow(trFighter->getVel().getY(), 2)) < 0.005)
-		{
-			trFighter->setVel(Vector2D(0, 0));
+				fighterActions(fighter2);
+			}	
 		}
 		else
 		{
-			trFighter->setVel(Vector2D(trFighter->getVel().getX() * 0.995, trFighter->getVel().getY() * 0.995));
-		}
-
-		//This is the things that were done by ShowAtOpposideSide
-		if (trFighter->getPos().getX() > WIN_WIDTH) // Rightside
-		{
-			trFighter->setPos(Vector2D(-trFighter->getW(), trFighter->getPos().getY()));
-		}
-		else if (trFighter->getPos().getX() + trFighter->getW() < 0) // Leftside
-		{
-			trFighter->setPos(Vector2D(WIN_WIDTH, trFighter->getPos().getY()));
-		}
-		else if (trFighter->getPos().getY() > WIN_HEIGHT) // Downside
-		{
-			trFighter->setPos(Vector2D(trFighter->getPos().getX(), -trFighter->getH()));
-		}
-		else if (trFighter->getPos().getY() + trFighter->getH() < 0) // Upside
-		{
-			trFighter->setPos(Vector2D(trFighter->getPos().getX(), WIN_HEIGHT));
-		}
+			fighterActions(fighter);
+		}	
 	}	
 }
 

@@ -28,6 +28,8 @@ private:
 	// hace falta desactivar la entidad (no dibujarla si el juego está parado).
 	void onCollision_FighterAsteroid();
 
+
+	void fighterActions(Entity* ent_);
 	// Para gestionar el mensaje de que ha acabado una ronda. Desactivar el sistema.
 	void onRoundOver();
 
@@ -49,6 +51,8 @@ public:
 	void initSystem() override;
 
 	void updateFighter2(Vector2D pos, Vector2D vel, float rotation);
+
+	
 
 	// Si el juego está parado no hacer nada, en otro caso actualizar la velocidad
 	// del caza y moverlo como en la práctica 1 (acelerar, desacelerar, etc). Además, 
