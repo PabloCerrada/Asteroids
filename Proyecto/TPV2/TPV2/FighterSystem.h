@@ -50,7 +50,10 @@ public:
 	// correspondiente, etc.
 	void initSystem() override;
 
-	void updateFighter2(Vector2D pos, Vector2D vel, float rotation);
+	void updateFighter(Vector2D pos, Vector2D vel, float rotation);
+
+	void updateOnlyFighter2(Vector2D pos, Vector2D vel, float rotation);
+	void updateOnlyFighter1(Vector2D pos, Vector2D vel, float rotation);
 
 	
 

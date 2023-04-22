@@ -8,6 +8,9 @@ private:
 
 	Game* game;
 	Entity* fighter;
+	Entity* fighter2;
+
+	void deathFighter(Entity* f);
 
 	void GameOver();
 
@@ -23,7 +26,7 @@ private:
 	void onAsteroidsExtinction();
 
 	int winner_; // 0 - None, 1 - Asteroids, 2- Fighter
-	int winnerMultiplayer;			//1-2
+	bool winnerMultiplayer;			// true = 1, false = 2
 public:
 	constexpr static sysId_type id = _sys_GAMECTRL;
 

@@ -28,6 +28,11 @@ struct FighterPosMessage :public NetMessage
 	float height;
 };
 
+struct GameOverMessage :public NetMessage
+{
+	bool fighter1Winner;
+};
+
 struct InitialMessage:public NetMessage
 {
 	int n;

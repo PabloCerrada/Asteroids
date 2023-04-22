@@ -24,4 +24,8 @@ struct Message
 		bool deathFighter2;
 	} endOfRound;
 
+	struct
+	{
+		bool fighter1Winner;
+	} over;
 };

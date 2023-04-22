@@ -8,6 +8,9 @@ GameCtrlSystem::GameCtrlSystem(Game* game_) {
 void GameCtrlSystem::initSystem() 
 {
 	fighter = mngr_->getHandler(_hdlr_FIGHTER);
+	if (mngr_->getStateId() == "Multiplayer") {
+		fighter2 = mngr_->getHandler(_hdlr_FIGHTER2);
+	}
 }
 
 void GameCtrlSystem::receive(const Message& m) {
@@ -25,11 +28,13 @@ void GameCtrlSystem::receive(const Message& m) {
 	case _msg_DEATHMULTIPLAYER:
 		if (m.endOfRound.deathFighter1)
 		{
-			winnerMultiplayer = 2;
+			deathFighter(fighter);
+			winnerMultiplayer = false;
 		}
 		else
 		{
-			winnerMultiplayer = 1;
+			deathFighter(fighter2);
+			winnerMultiplayer = true;
 		}
 		break;
 	default:
@@ -72,6 +77,47 @@ void GameCtrlSystem::update() {
 			m.id = _msg_ROUNDSTART;
 			mngr_->send(m);
 		}
+		if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_SPACE && GameStateMachine::instance()->currentState()->getStateId() == "Multiplayer" && winner_ == 1)
+		{
+			winner_ = 0;
+			Message m;
+			m.id = _msg_ROUNDSTART;
+			mngr_->send(m);
+
+			mngr_->getSystem<NetSystem>()->resumeGame();
+		}
+	}
+}
+
+void GameCtrlSystem::deathFighter(Entity* f) {
+	winner_ = 1;
+	Health* hlth = mngr_->getComponent<Health>(f);
+
+	if (hlth->getLifes() >= 1) {
+		cout << mngr_->getComponent<Health>(f)->getLifes();
+		mngr_->getComponent<Health>(f)->quitLife();
+		cout << mngr_->getComponent<Health>(f)->getLifes();
+		Message m;
+		m.id = _msg_ROUNDOVER;
+		mngr_->send(m);
+		Transform* tr = mngr_->getComponent<Transform>(fighter);
+		tr->setPos(Vector2D(tr->getW() + 20, WIN_HEIGHT / 2 + tr->getW() / 2));
+		tr->setVel(Vector2D(0, 0));
+		tr->setR(0);
+
+		Transform* transformacion = mngr_->getComponent<Transform>(fighter2);
+		transformacion->setPos(Vector2D(WIN_WIDTH - tr->getW() - 20, WIN_HEIGHT / 2 + tr->getW() / 2));
+		transformacion->setVel(Vector2D(0, 0));
+		transformacion->setR(0);
+
+		mngr_->getSystem<NetSystem>()->roundOver();
+
+	}
+	else {
+		Message m;
+		m.id = _msg_GAMEOVERONLINE;
+		m.over.fighter1Winner = winnerMultiplayer;
+		mngr_->send(m);
 	}
 }
 

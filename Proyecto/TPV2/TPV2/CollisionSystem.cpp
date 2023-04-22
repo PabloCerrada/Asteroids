@@ -47,7 +47,7 @@ void CollisionSystem::onRoundStart()
 
 // Method that manage collision asteroid - bullet and asteroid - player - bullet and player
 void CollisionSystem::checkCollision() { 
-	if (mngr_->getStateId()=="Playstate")
+	if (mngr_->getStateId()=="PlayState")
 	{
 
 		for (auto ast : mngr_->getEntitiesByGroup(_grp_ASTEROIDS)) {
@@ -70,7 +70,7 @@ void CollisionSystem::checkCollision() {
 			}
 		}
 	}
-	else
+	else if (mngr_->getStateId() == "Multiplayer")
 	{
 		for (auto bull : mngr_->getEntitiesByGroup(_grp_BULLETS))
 		{

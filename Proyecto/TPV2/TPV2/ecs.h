@@ -16,6 +16,7 @@ enum msgId : msgId_type {
 	_msg_SHOOT = 7,	
 	_msg_MAINMENU = 8,
 	_msg_DEATHMULTIPLAYER =9,
+	_msg_GAMEOVERONLINE = 10,
 	_LAST_MSG_ID
 };
 
@@ -23,9 +24,11 @@ using netMsgId_type = int;
 enum netMessage : netMsgId_type
 {
 	_net_BULLETSHOT = 0,
-	_net_NEWFIGHERPOS_ =1,
-
-
+	_net_NEWFIGHERPOS_ = 1,
+	_net_ROUNDOVER = 2,
+	_net_RESUMEGAME = 3,
+	_net_CONNECT = 4,
+	_net_GAMEOVER = 5,
 
 	_LAST_NETMSG_ID
 };

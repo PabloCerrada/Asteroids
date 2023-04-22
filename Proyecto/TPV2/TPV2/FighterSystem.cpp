@@ -32,9 +32,9 @@ void FighterSystem::initSystem()
 	mngr_->setHandler(_hdlr_FIGHTER, fighter);
 	fighter->setContext(mngr_);
 	Vector2D velIni = Vector2D(0, 0);
-	float width = 44, height = 38.5, rotationIni = 1;
-	Vector2D posIni = Vector2D(WIN_WIDTH / 2 - width / 2, WIN_HEIGHT / 2 - height / 2);
-	trFighter = mngr_->addComponent<Transform>(fighter, posIni, velIni, width, height, rotationIni);
+	float rotationIni = 1;
+	Vector2D posIni = Vector2D(20, WIN_HEIGHT / 2 - FIGHTER_HEIGHT / 2);
+	trFighter = mngr_->addComponent<Transform>(fighter, posIni, velIni, FIGHTER_WIDTH, FIGHTER_HEIGHT, rotationIni);
 	int maxLifes = 3;
 	mngr_->addComponent<Health>(fighter, maxLifes);
 	if (mngr_->getStateId()=="Multiplayer")
@@ -42,8 +42,8 @@ void FighterSystem::initSystem()
 		fighter2 = mngr_->addEntity(_grp_FIGHTER);
 		mngr_->setHandler(_hdlr_FIGHTER2, fighter2);
 		fighter2->setContext(mngr_);
-		Vector2D posIni2 = Vector2D(WIN_WIDTH - width / 2, WIN_HEIGHT / 2 - height / 2);
-		trFighter2 = mngr_->addComponent<Transform>(fighter2, posIni2, velIni, width, height, rotationIni);
+		Vector2D posIni2 = Vector2D(WIN_WIDTH - FIGHTER_WIDTH -  20, WIN_HEIGHT / 2 - FIGHTER_HEIGHT / 2);
+		trFighter2 = mngr_->addComponent<Transform>(fighter2, posIni2, velIni, FIGHTER_WIDTH, FIGHTER_HEIGHT, rotationIni);
 		mngr_->addComponent<Health>(fighter2, maxLifes);
 	}
 	
@@ -152,7 +152,7 @@ void FighterSystem:: fighterActions(Entity* ent_)
 	
 }
 
-void FighterSystem::updateFighter2(Vector2D pos, Vector2D vel, float rotation)
+void FighterSystem::updateFighter(Vector2D pos, Vector2D vel, float rotation)
 {
 	if (!mngr_->getSystem<NetSystem>()->isServer())
 	{
@@ -167,6 +167,21 @@ void FighterSystem::updateFighter2(Vector2D pos, Vector2D vel, float rotation)
 		trFighter2->setR(rotation);
 	}
 }
+
+void FighterSystem::updateOnlyFighter2(Vector2D pos, Vector2D vel, float rotation)
+{
+	trFighter2->setPos(pos);
+	trFighter2->setVel(vel);
+	trFighter2->setR(rotation);
+}
+
+void FighterSystem::updateOnlyFighter1(Vector2D pos, Vector2D vel, float rotation)
+{
+	trFighter->setPos(pos);
+	trFighter->setVel(vel);
+	trFighter->setR(rotation);
+}
+
 void FighterSystem::update()
 {
 	if (active_)

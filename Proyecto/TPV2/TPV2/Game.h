@@ -27,6 +27,9 @@ const uint ASTEROID_WIDTH_FRAME = 85;
 const uint ASTEROID_HEIGHT_FRAME = 100;
 const uint ASTEROID_NFRAMES = 5;
 
+const float FIGHTER_WIDTH = 44;
+const float FIGHTER_HEIGHT = 38.5;
+
 class Game {
 private:
 	SDL_Window* window = nullptr;

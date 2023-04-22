@@ -23,7 +23,7 @@ public:
 	void update() override;
 private:
 	bool active_;
-	int lives;
+	int livesFighter1, livesFighter2;
 	Texture* healthTexture;
 	Texture* fighterTexture;
 	Texture* bulletTexture;
@@ -40,6 +40,7 @@ private:
 	void onRoundOver();
 	void onGameOver();
 	void onGameWin();
+	void onGameOverOnline(bool fighter1Winner);
 	int winner_ = 0; // 0 - None, 1 - Asteroid, 2- Fighter
 };
 

@@ -21,8 +21,14 @@ NetSystem::NetSystem()
 	string a;
 	cin >> a;
 
+	while (a != "1" && a != "2") {
+		cout << "Las únicas respuestas válidas son 1 o 2" << endl;
+		cout << "Pulsa 1 para ser el creador de la partida\nPulsa 2 para unirte a una partida" << endl;
+		cin >> a;
+	}
 	if (a == "1") {
 		imServer = true;
+		waiting = true;
 		server(port_);
 	}
 	else {
@@ -32,6 +38,11 @@ NetSystem::NetSystem()
 		char host[1024];
 		cin >> host;
 		client(host, port_);
+		waiting = false;
+		NetMessage* me = static_cast<NetMessage*>(message);
+		me->id = _net_CONNECT;
+		p_->len = sizeof(NetMessage);
+		SDLNet_UDP_Send(sock_, -1, p_);
 	}
 }
 
@@ -51,14 +62,41 @@ void NetSystem:: update()
 			}
 			case _net_NEWFIGHERPOS_:
 			{
-				cout << "as";
 				FighterPosMessage* me = static_cast<FighterPosMessage*>(message);
 				me = reinterpret_cast<FighterPosMessage*>(p_->data);
 				Vector2D pos = { me->x,me->y };
 				Vector2D vel = { me->velX,me->velY };
-				mngr_->getSystem<FighterSystem>()->updateFighter2(pos, vel, me->rot);
+				mngr_->getSystem<FighterSystem>()->updateFighter(pos, vel, me->rot);
 				break;
-			}		
+			}
+			case _net_ROUNDOVER:
+			{
+				Message m;
+				m.id = _msg_ROUNDOVER;
+				mngr_->send(m);
+				mngr_->getSystem<FighterSystem>()->updateOnlyFighter2(Vector2D(WIN_WIDTH - FIGHTER_WIDTH - 20, WIN_HEIGHT / 2 + FIGHTER_HEIGHT / 2), Vector2D(0, 0), 0);
+				mngr_->getSystem<FighterSystem>()->updateOnlyFighter1(Vector2D(20, WIN_HEIGHT / 2 + FIGHTER_HEIGHT / 2), Vector2D(0, 0), 0);
+				break;
+			}
+			case _net_RESUMEGAME:
+			{
+				Message m;
+				m.id = _msg_ROUNDSTART;
+				mngr_->send(m);
+				break;
+			}
+			case _net_CONNECT:
+			{
+				waiting = false;
+				break;
+			}
+			case _net_GAMEOVER:
+			{
+				Message m;
+				m.id = _msg_GAMEOVERONLINE;
+				mngr_->send(m);
+				break;
+			}
 			default:
 				break;
 		}
@@ -108,7 +146,30 @@ void NetSystem::createBullet(Vector2D pos, Vector2D vel, float rotation)
 
 }
 
+void NetSystem::gameOver() {
+	NetMessage* me = static_cast<NetMessage*>(message);
+	me->id = _net_GAMEOVER;
 
+	p_->len = sizeof(NetMessage);
+	SDLNet_UDP_Send(sock_, -1, p_);
+}
+
+void NetSystem::roundOver()
+{
+	NetMessage* me = static_cast<NetMessage*>(message);
+	me->id = _net_ROUNDOVER;
+
+	p_->len = sizeof(NetMessage);
+	SDLNet_UDP_Send(sock_, -1, p_);
+}
+
+void NetSystem::resumeGame()
+{
+	NetMessage* me = static_cast<NetMessage*>(message);
+	me->id = _net_RESUMEGAME;
+	p_->len = sizeof(NetMessage);
+	SDLNet_UDP_Send(sock_, -1, p_);
+}
 
 
 void NetSystem::server(int port)
