@@ -116,10 +116,10 @@ void RenderSystem::update() {
 	}
 	else if(GameStateMachine::instance()->currentState()->getStateId() == "Multiplayer")
 	{
-		if (mngr_->getSystem<NetSystem>()->getWaiting()) {
+	/*	if (mngr_->getSystem<NetSystem>()->getWaiting()) {
 			font->render(SDLUtils::instance()->renderer(), "WAITING FOR ANOTHER PLAYER...", (WIN_WIDTH / 2) - 100, WIN_HEIGHT / 2, s);
-		}
-		else if (winner_ == 0) {
+		}*/
+		 if (winner_ == 0) {
 			if (mngr_->getSystem<NetSystem>()->isServer()) {
 				for (int i = 0; i < livesFighter1; i++) // Render lives
 				{

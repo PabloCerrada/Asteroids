@@ -13,8 +13,9 @@ private:
 	UDPpacket* p_;
 	SDLNet_SocketSet sockSet_;
 	NetMessage* message;
+	IPaddress ip;
 	int MAXPACKETSIZE = 512;
-	
+
 
 public:
 	constexpr static sysId_type id = _sys_NET;
