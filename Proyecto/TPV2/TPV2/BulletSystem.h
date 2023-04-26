@@ -7,6 +7,7 @@ class Manager;
 class BulletSystem : public System
 {
 private:
+	SoundEffect* soundFire;
 	// Para gestionar el mensaje de que el jugador ha disparado. Añadir una bala al
 	// juego, como en la práctica 1. Recuerda que la rotación de la bala sería
 	// vel.angle(Vector2D(0.0f,-1.0f))

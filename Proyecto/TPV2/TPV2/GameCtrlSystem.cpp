@@ -93,13 +93,9 @@ void GameCtrlSystem::deathFighter(Entity* f) {
 	winner_ = 1;
 	Health* hlth = mngr_->getComponent<Health>(f);
 
-	if (hlth->getLifes() >= 1) {
-		cout << mngr_->getComponent<Health>(f)->getLifes();
+	if (hlth->getLifes() >= 2) {
 		mngr_->getComponent<Health>(f)->quitLife();
-		cout << mngr_->getComponent<Health>(f)->getLifes();
-		Message m;
-		m.id = _msg_ROUNDOVER;
-		mngr_->send(m);
+		
 		Transform* tr = mngr_->getComponent<Transform>(fighter);
 		tr->setPos(Vector2D(tr->getW() + 20, WIN_HEIGHT / 2 + tr->getW() / 2));
 		tr->setVel(Vector2D(0, 0));
@@ -109,6 +105,10 @@ void GameCtrlSystem::deathFighter(Entity* f) {
 		transformacion->setPos(Vector2D(WIN_WIDTH - tr->getW() - 20, WIN_HEIGHT / 2 + tr->getW() / 2));
 		transformacion->setVel(Vector2D(0, 0));
 		transformacion->setR(0);
+
+		Message m;
+		m.id = _msg_ROUNDOVER;
+		mngr_->send(m);
 
 		mngr_->getSystem<NetSystem>()->roundOver();
 

@@ -5,7 +5,8 @@
 
 void BulletSystem::initSystem()
 {
-
+	soundFire = &SDLUtils::instance()->soundEffects().at("fire");
+	soundFire->setVolume(30);
 }
 
 void BulletSystem::receive(const Message& m)
@@ -81,6 +82,7 @@ void BulletSystem::onRoundOver()
 
 void BulletSystem::createBullet(float posX, float posY, float velX, float velY,double rotation,float width,float height)
 {		
+	soundFire->play();
 	//PINTA LAS BALAS DEL OTRO PLAYER QUE NO SOY YO
 	Entity* bullet = mngr_->addEntity(_grp_BULLETS);
 	Vector2D pos = { posX,posY };

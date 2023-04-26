@@ -83,7 +83,10 @@ void NetSystem:: update()
 			}
 			case _net_CONNECT:
 			{
-				waiting = false;
+				if (imServer) {
+					ip = p_->address;
+					waiting = false;
+				}
 				break;
 			}
 			case _net_GAMEOVER:
@@ -190,7 +193,7 @@ void NetSystem::server(int port)
 }
 void NetSystem::client(char* host, int port)
 {
-	sock_ = SDLNet_UDP_Open(port);			//busca el puerto que este abierto
+	sock_ = SDLNet_UDP_Open(0);			//busca el puerto que este abierto
 	if (!sock_)
 	{
 		throw "asdasd";

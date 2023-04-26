@@ -49,13 +49,13 @@ void FighterSystem::initSystem()
 	
 	
 	soundThrust = &SDLUtils::instance()->soundEffects().at("thrust");
-	soundThrust->setVolume(0);
+	soundThrust->setVolume(30);
 
 	soundFire = &SDLUtils::instance()->soundEffects().at("fire");
-	soundFire->setVolume(0);
+	soundFire->setVolume(30);
 
 	soundCrash = &SDLUtils::instance()->soundEffects().at("explosion");
-	soundCrash->setVolume(0);
+	soundCrash->setVolume(30);
 	
 }
 void FighterSystem:: fighterActions(Entity* ent_)
