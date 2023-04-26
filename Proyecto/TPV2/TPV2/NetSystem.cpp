@@ -39,10 +39,7 @@ NetSystem::NetSystem()
 		cin >> host;
 		client(host, port_);
 		waiting = false;
-		NetMessage* me = static_cast<NetMessage*>(message);
-		me->id = _net_CONNECT;
-		p_->len = sizeof(NetMessage);
-		SDLNet_UDP_Send(sock_, -1, p_);
+		
 	}
 }
 
@@ -193,7 +190,7 @@ void NetSystem::server(int port)
 }
 void NetSystem::client(char* host, int port)
 {
-	sock_ = SDLNet_UDP_Open(0);			//busca el puerto que este abierto
+	sock_ = SDLNet_UDP_Open(port);			//busca el puerto que este abierto
 	if (!sock_)
 	{
 		throw "asdasd";
@@ -212,8 +209,9 @@ void NetSystem::client(char* host, int port)
 	SDLNet_UDP_AddSocket(sockSet_, sock_);
 
 
-
-	
+	NetMessage* me = static_cast<NetMessage*>(message);
+	me->id = _net_CONNECT;
+	p_->len = sizeof(NetMessage);
 	p_->address = ip;
 	SDLNet_UDP_Send(sock_, -1, p_);
 	
