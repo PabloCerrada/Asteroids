@@ -8,6 +8,9 @@ void CollisionSystem::initSystem()
 	{
 		trFighter2 = mngr_->getComponent<Transform>(mngr_->getHandler(_hdlr_FIGHTER2));
 	}
+
+	soundCrash = &SDLUtils::instance()->soundEffects().at("explosion");
+	soundCrash->setVolume(30);
 }
 
 
@@ -64,6 +67,7 @@ void CollisionSystem::checkCollision() {
 				}
 			}
 			if (Collisions::collidesWithRotation(astTr->getPos(), astTr->getW(), astTr->getH(), astTr->getR(), trFighter->getPos(), trFighter->getW(), trFighter->getH(), trFighter->getR())) {
+				soundCrash->play();
 				Message m;
 				m.id = _msg_COLLISIONFIGHTER;
 				mngr_->send(m);

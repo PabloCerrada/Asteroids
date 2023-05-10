@@ -13,7 +13,7 @@ class FighterSystem :public System
 private:
 	SoundEffect* soundThrust;
 	SoundEffect* soundFire;
-	SoundEffect* soundCrash;
+	
 	Entity* fighter;
 	Entity* fighter2;
 

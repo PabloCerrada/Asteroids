@@ -9,6 +9,7 @@ class CollisionSystem : public System
 {
 
 private:
+	SoundEffect* soundCrash;
 	Transform* trFighter;
 	Transform* trFighter2;
 	// Para gestionar el mensaje de que ha acabado una ronda. Desactivar el sistema.

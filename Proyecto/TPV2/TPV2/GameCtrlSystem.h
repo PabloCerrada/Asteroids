@@ -10,7 +10,8 @@ private:
 	Entity* fighter;
 	Entity* fighter2;
 
-	void deathFighter(Entity* f);
+	void deathFighter1();
+	void deathFighter2();
 
 	void GameOver();
 

@@ -27,14 +27,12 @@ void GameCtrlSystem::receive(const Message& m) {
 		break;
 	case _msg_DEATHMULTIPLAYER:
 		if (m.endOfRound.deathFighter1)
-		{
-			deathFighter(fighter);
-			winnerMultiplayer = false;
+		{	
+			deathFighter1();
 		}
 		else
 		{
-			deathFighter(fighter2);
-			winnerMultiplayer = true;
+			deathFighter2();
 		}
 		break;
 	default:
@@ -59,7 +57,7 @@ void GameCtrlSystem::update() {
 			game->setExit();
 		}
 
-		if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_SPACE && GameStateMachine::instance()->currentState()->getStateId() == "MainMenuState")
+		if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_n && GameStateMachine::instance()->currentState()->getStateId() == "MainMenuState")
 		{
 			winner_ = 0;
 			game->playFunction(game);
@@ -89,13 +87,46 @@ void GameCtrlSystem::update() {
 	}
 }
 
-void GameCtrlSystem::deathFighter(Entity* f) {
+void GameCtrlSystem::deathFighter1() {
+	winnerMultiplayer = false;
 	winner_ = 1;
-	Health* hlth = mngr_->getComponent<Health>(f);
+	Health* hlth = mngr_->getComponent<Health>(fighter);
 
 	if (hlth->getLifes() >= 2) {
-		mngr_->getComponent<Health>(f)->quitLife();
-		
+		mngr_->getComponent<Health>(fighter)->quitLife();
+
+		Transform* tr = mngr_->getComponent<Transform>(fighter);
+		tr->setPos(Vector2D(tr->getW() + 20, WIN_HEIGHT / 2 + tr->getW() / 2));
+		tr->setVel(Vector2D(0, 0));
+		tr->setR(0);
+
+		Transform* transformacion = mngr_->getComponent<Transform>(fighter2);
+		transformacion->setPos(Vector2D(WIN_WIDTH - tr->getW() - 20, WIN_HEIGHT / 2 + tr->getW() / 2));
+		transformacion->setVel(Vector2D(0, 0));
+		transformacion->setR(0);
+
+		Message m;
+		m.id = _msg_ROUNDOVER;
+		mngr_->send(m);
+
+		mngr_->getSystem<NetSystem>()->roundOver();
+	}
+	else {
+		Message m;
+		m.id = _msg_GAMEOVERONLINE;
+		m.over.fighter1Winner = winnerMultiplayer;
+		mngr_->send(m);
+	}
+}
+
+void GameCtrlSystem::deathFighter2() {
+	winnerMultiplayer = true;
+	winner_ = 1;
+	Health* hlth = mngr_->getComponent<Health>(fighter2);
+
+	if (hlth->getLifes() >= 2) {
+		mngr_->getComponent<Health>(fighter2)->quitLife();
+
 		Transform* tr = mngr_->getComponent<Transform>(fighter);
 		tr->setPos(Vector2D(tr->getW() + 20, WIN_HEIGHT / 2 + tr->getW() / 2));
 		tr->setVel(Vector2D(0, 0));
@@ -135,7 +166,7 @@ void GameCtrlSystem::onCollision_FighterAsteroid()
 	Health* hlth = mngr_->getComponent<Health>(fighter);
 	Transform* tr = mngr_->getComponent<Transform>(fighter);
 	
-	if (hlth->getLifes() >= 1) {
+	if (hlth->getLifes() >= 2) {
 		mngr_->getComponent<Health>(fighter)->quitLife();
 
 		Message m;

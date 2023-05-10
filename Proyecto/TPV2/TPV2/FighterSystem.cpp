@@ -33,7 +33,13 @@ void FighterSystem::initSystem()
 	fighter->setContext(mngr_);
 	Vector2D velIni = Vector2D(0, 0);
 	float rotationIni = 1;
-	Vector2D posIni = Vector2D(20, WIN_HEIGHT / 2 - FIGHTER_HEIGHT / 2);
+	Vector2D posIni;
+	if (mngr_->getStateId() == "PlayState") {
+		posIni = Vector2D(WIN_WIDTH / 2 - FIGHTER_WIDTH / 2, WIN_HEIGHT / 2 - FIGHTER_HEIGHT / 2);
+	}
+	else {
+		posIni = Vector2D(20, WIN_HEIGHT / 2 - FIGHTER_HEIGHT / 2);
+	}
 	trFighter = mngr_->addComponent<Transform>(fighter, posIni, velIni, FIGHTER_WIDTH, FIGHTER_HEIGHT, rotationIni);
 	int maxLifes = 3;
 	mngr_->addComponent<Health>(fighter, maxLifes);
@@ -54,8 +60,7 @@ void FighterSystem::initSystem()
 	soundFire = &SDLUtils::instance()->soundEffects().at("fire");
 	soundFire->setVolume(30);
 
-	soundCrash = &SDLUtils::instance()->soundEffects().at("explosion");
-	soundCrash->setVolume(30);
+
 	
 }
 void FighterSystem:: fighterActions(Entity* ent_)
@@ -209,7 +214,6 @@ void FighterSystem::onCollision_FighterAsteroid()
 	trFighter->setPos(Vector2D(WIN_WIDTH / 2 + trFighter->getW() / 2, WIN_HEIGHT / 2 + trFighter->getW() / 2));
 	trFighter->setVel(Vector2D(0, 0));
 	trFighter->setR(0);
-	soundCrash->play();
 }
 
 void FighterSystem::onRoundOver()
