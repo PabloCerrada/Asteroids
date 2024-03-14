@@ -5,8 +5,8 @@
     { "id" : "ARIAL24", "file" : "resources/fonts/ARIAL.ttf", "size": 24 },
     { "id" : "ARIAL48", "file" : "resources/fonts/ARIAL.ttf", "size": 48 }
   ],
-  
-  "images" : [
+
+  "images": [
     {
       "id": "sdl_logo",
       "file": "resources/images/SDL_logo.png"
@@ -19,7 +19,14 @@
       "id": "heart",
       "file": "resources/images/heart.png"
     },
-
+    {
+      "id": "bum",
+      "file": "resources/images/bum.png"
+    },
+    {
+      "id": "powerUp",
+      "file": "resources/images/powerUp.png"
+    },
     {
       "id": "fire",
       "file": "resources/images/fire.png"

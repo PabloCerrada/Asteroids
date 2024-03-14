@@ -10,7 +10,7 @@ void CollisionSystem::initSystem()
 	}
 
 	soundCrash = &SDLUtils::instance()->soundEffects().at("explosion");
-	soundCrash->setVolume(30);
+	soundCrash->setVolume(0);
 }
 
 
@@ -35,6 +35,15 @@ void CollisionSystem::update()
 	if (active_)
 	{
 		checkCollision();
+		if (!canCollide)
+		{
+			delay++;
+		}
+		if(delay>20)
+		{
+			canCollide = true;
+			delay = 0;
+		}
 	}
 }
 
@@ -66,12 +75,55 @@ void CollisionSystem::checkCollision() {
 					mngr_->send(m);
 				}
 			}
+			for (auto explosion : mngr_->getEntitiesByGroup(_grp_EXPLOSION))
+			{
+				Transform* explosionTr = mngr_->getComponent<Transform>(explosion);
+				if (canCollide && Collisions::collidesWithRotation(astTr->getPos(), astTr->getW(), astTr->getH(), astTr->getR(), explosionTr->getPos(), explosionTr->getW(), explosionTr->getH(), explosionTr->getR())) {
+					Message m;
+					m.id = _msg_COLLISIONEXPLOSIONASTEROID;
+					m.explosion.asteroid = ast;
+					m.explosion.explosion = explosion;
+					mngr_->send(m);
+
+
+				}
+			}
+			for (auto bomb:mngr_->getEntitiesByGroup(_grp_BOMB))
+			{
+				Transform* bombTr = mngr_->getComponent<Transform>(bomb);
+				if (Collisions::collidesWithRotation(astTr->getPos(), astTr->getW(), astTr->getH(), astTr->getR(), bombTr->getPos(), bombTr->getW(), bombTr->getH(), bombTr->getR())) {
+				
+					canCollide = false;
+					Message m;
+					m.id = _msg_COLLISIONBOMBASTEROID;
+					m.colision.asteroid = ast;
+					m.colision.bullet = bomb;
+					mngr_->send(m);
+
+
+				}
+			}
+			
+			for (auto powerUp : mngr_->getEntitiesByGroup(_grp_POWERUPS))
+			{
+				Transform* powerTr = mngr_->getComponent<Transform>(powerUp);
+				if (Collisions::collidesWithRotation(trFighter->getPos(), trFighter->getW(), trFighter->getH(), trFighter->getR(), powerTr->getPos(), powerTr->getW(), powerTr->getH(), powerTr->getR())) {
+					Message m;
+					m.id = _msg_COLLISIONPOWERUP;
+					m.powerUp.num = mngr_->getComponent<powerUpComponent>(powerUp)->getId();
+					m.powerUp.powerUp = powerUp;
+					mngr_->send(m);
+
+
+				}
+			}
 			if (Collisions::collidesWithRotation(astTr->getPos(), astTr->getW(), astTr->getH(), astTr->getR(), trFighter->getPos(), trFighter->getW(), trFighter->getH(), trFighter->getR())) {
 				soundCrash->play();
 				Message m;
 				m.id = _msg_COLLISIONFIGHTER;
 				mngr_->send(m);
 			}
+			
 		}
 	}
 	else if (mngr_->getStateId() == "Multiplayer")

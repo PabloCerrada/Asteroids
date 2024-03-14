@@ -10,11 +10,14 @@ void RenderSystem::initSystem() {
 	healthTexture = &SDLUtils::instance()->images().at("heart");
 	fighterTexture = &SDLUtils::instance()->images().at("fighter");
 	bulletTexture = &SDLUtils::instance()->images().at("fire");
+	
 	if (mngr_->getStateId() == "PlayState") {
 		fighterTransform = mngr_->getComponent<Transform>(mngr_->getHandler(_hdlr_FIGHTER));
 		livesFighter1 = mngr_->getComponent<Health>(mngr_->getHandler(_hdlr_FIGHTER))->getLifes();
 		asteroidTexture = &SDLUtils::instance()->images().at("asteroid");
 		asteroidGoldTexture = &SDLUtils::instance()->images().at("asteroidGold");
+		bombTexture = &SDLUtils::instance()->images().at("bum");
+		powerUpTexture = &SDLUtils::instance()->images().at("powerUp");
 	}
 	else if (mngr_->getStateId() == "Multiplayer")
 	{
@@ -69,6 +72,26 @@ void RenderSystem::update() {
 				Transform* bulletTransform = mngr_->getComponent<Transform>(it);
 				SDL_Rect dest = build_sdlrect(bulletTransform->getPos(), bulletTransform->getW(), bulletTransform->getH());
 				bulletTexture->render(dest, bulletTransform->getR());
+			}
+
+			for (auto it: mngr_->getEntitiesByGroup(_grp_BOMB))
+			{
+				Transform* bombTransform = mngr_->getComponent<Transform>(it);
+				SDL_Rect dest = build_sdlrect(bombTransform->getPos(), bombTransform->getW(), bombTransform->getH());
+				bulletTexture->render(dest, bombTransform->getR());
+			}
+
+			for (auto it : mngr_->getEntitiesByGroup(_grp_EXPLOSION))
+			{
+				Transform* explosionTr = mngr_->getComponent<Transform>(it);
+				SDL_Rect dest = build_sdlrect(explosionTr->getPos(), explosionTr->getW(), explosionTr->getH());
+				bombTexture->render(dest, explosionTr->getR());
+			}
+			for (auto it : mngr_->getEntitiesByGroup(_grp_POWERUPS))
+			{
+				Transform* powerTr = mngr_->getComponent<Transform>(it);
+				SDL_Rect dest = build_sdlrect(powerTr->getPos(), powerTr->getW(), powerTr->getH());
+				powerUpTexture->render(dest, powerTr->getR());
 			}
 			// Render asteroids
 			for (auto it : mngr_->getEntitiesByGroup(_grp_ASTEROIDS)) {

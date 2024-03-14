@@ -14,12 +14,15 @@ private:
 	int timeGen = 5000;  // Time between the generation of one asteroid
 	float lastRespawnTime = 0;
 	bool respawn = false;
+	bool canCheck = true;
 	Transform* trFighter;
 
 	// Para gestionar el mensaje de que ha habido un choque de un asteroide con una
 	// bala. Desactivar el asteroide “a” y crear 2 asteroides como en la práctica 1,
 	// y si no hay más asteroides enviar un mensaje correspondiente.
 	void onCollision_AsteroidBullet(Entity* a);
+
+	void onCollision_ExplosionAsteroid(Entity* a);
 
 	// Para gestionar el mensaje de que ha acabado la ronda. Desactivar todos los
 	// asteroides, y desactivar el sistema.
@@ -33,7 +36,10 @@ private:
 
 	// El número actual de asteroides en el juego (recuerda que no puede superar un
 	// límite)
-	Uint8 numOfAsteroids_;
+	int numOfAsteroids_ = 0;
+
+
+	int killAsteroid = 0;
 
 	// Indica si el sistema está activo o no (modificar el valor en onRoundOver y
 	// onRoundStart, y en update no hacer nada si no está activo)

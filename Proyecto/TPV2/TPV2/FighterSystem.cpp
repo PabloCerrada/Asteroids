@@ -21,6 +21,9 @@ void FighterSystem::receive(const Message& m)
 	case _msg_COLLISIONFIGHTER:
 		onCollision_FighterAsteroid();
 		break;
+	case _msg_COLLISIONPOWERUP:
+		powerUpAction(m.powerUp.num);
+		break;
 	default:
 		break;
 	}
@@ -55,16 +58,51 @@ void FighterSystem::initSystem()
 	
 	
 	soundThrust = &SDLUtils::instance()->soundEffects().at("thrust");
-	soundThrust->setVolume(30);
+	soundThrust->setVolume(0);
 
 	soundFire = &SDLUtils::instance()->soundEffects().at("fire");
-	soundFire->setVolume(30);
+	soundFire->setVolume(0);
 
 
 	
 }
+void FighterSystem::powerUpAction(int n)
+{
+	actualPowerUp = n;
+	if (!powerUp)
+	{
+		powerUp = true;
+		switch (n)
+		{
+		case 1:
+			cadence = 0.2;
+			break;
+		case 2:
+			acceleration = 0.5f;
+			speedLimit = 6.0f;
+			break;
+		}
+	}
+
+}
+
+void FighterSystem::finishPowerUp()
+{
+	powerUp = false; powerUpDuratiion = 0;
+	switch (actualPowerUp)
+	{
+	case 1:
+		cadence = 1;
+		break;
+	case 2:
+		acceleration = 0.2f;
+		speedLimit = 3.0f;
+	}
+}
 void FighterSystem:: fighterActions(Entity* ent_)
 {
+
+	
 	Transform* tr = mngr_->getComponent<Transform>(ent_);
 
 	tr->setPos(tr->getPos() + tr->getVel());
@@ -111,17 +149,48 @@ void FighterSystem:: fighterActions(Entity* ent_)
 		m.bullet.height = 20;
 		m.bullet.width = 5;
 
+		soundFire->play();
+		mngr_->send(m);
+	}
+
+	if (InputHandler::instance()->isKeyDown(SDL_SCANCODE_A) && canShoot)
+	{
+		canShoot = false;
+		lastShootTime = sdlutils().currRealTime();
+		Message m;
+		m.id = _msg_BOMB;
+		m.bomb.pos = tr->getPos() + Vector2D(tr->getW() / 2.0f, tr->getH() / 2.0f)
+			- Vector2D(0.0f, tr->getH() / 2.0f + 5.0f + 12.0f).rotate(tr->getR())
+			- Vector2D(2.0f, 10.0f);
+		m.bomb.vel = (Vector2D(0.0f, -1.0f).rotate(tr->getR()) * (tr->getVel().magnitude() + 5.0f));
+		m.bomb.rotation = tr->getR();
+		m.bomb.height = 40;
+		m.bomb.width = 20;
 
 		soundFire->play();
 		mngr_->send(m);
 	}
 
+	
+
+
 	//Gun
-	if (lastShootTime + 250 < sdlutils().currRealTime())
+	if (lastShootTime + 250 * cadence < sdlutils().currRealTime())
 	{
 		canShoot = true;
 	}
 
+	if (powerUp)
+	{
+	//	cout << "STARTED" << endl;
+		powerUpDuratiion++;
+	}
+	if (powerUpDuratiion>=500)
+	{
+		
+		//cout << "FINISHED" << endl;
+		finishPowerUp();
+	}
 	// Deceleration Component
 	if (sqrt(pow(tr->getVel().getX(), 2) + pow(tr->getVel().getY(), 2)) < 0.005)
 	{

@@ -5,6 +5,8 @@
 #include "BulletSystem.h"
 #include "AsteroidsSystem.h"
 #include "CollisionSystem.h"
+#include "BombSystem.h"
+#include "powerUpSystem.h"
 
 class Game;
 class PlayState : public Manager
@@ -16,6 +18,8 @@ private:
 	BulletSystem* bulletSystem;
 	AsteroidsSystem* asteroidSystem;
 	CollisionSystem* collisionSystem;
+	BombSystem* bombSystem;
+	powerUpSystem* powerUp;
 	bool gameover = false, win = false; // control booleans
 	Game* game;
 public:

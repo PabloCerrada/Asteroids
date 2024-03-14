@@ -12,11 +12,30 @@ struct Message
 
 	struct
 	{
+		Entity* explosion;
+		Entity* asteroid;
+	} explosion;
+
+	struct
+	{
+		int num;
+		Entity* powerUp;
+	}powerUp;
+	struct
+	{
 		Vector2D pos;
 		Vector2D vel;
 		double width, height;
 		float rotation;
 	} bullet;
+
+	struct
+	{
+		Vector2D pos;
+		Vector2D vel;
+		double width, height;
+		float rotation;
+	}bomb;
 
 	struct 
 	{

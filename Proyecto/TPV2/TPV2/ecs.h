@@ -17,6 +17,11 @@ enum msgId : msgId_type {
 	_msg_MAINMENU = 8,
 	_msg_DEATHMULTIPLAYER =9,
 	_msg_GAMEOVERONLINE = 10,
+	_msg_BOMB = 11,
+	_msg_COLLISIONBOMBASTEROID=12,
+	_msg_COLLISIONEXPLOSIONASTEROID=13,
+	_msg_CREATEPOWERUP =14,
+	_msg_COLLISIONPOWERUP = 15,
 	_LAST_MSG_ID
 };
 
@@ -48,6 +53,8 @@ enum cmpId : cmpId_type {
 	FRAMEDIMAGE_H = 8,
 	FOLLOW_H = 9,
 	GENERATIONS_H = 10,
+	EXPLOSIONTIMER_H = 11, 
+	POWERUPCOMPONENT_H =12,
 	// do not remove this
 	_LAST_CMP_ID
 };
@@ -58,7 +65,9 @@ enum grpId : grpId_type {
 	_grp_ASTEROIDS = 0,
 	_grp_BULLETS = 1,
 	_grp_FIGHTER = 2,
-
+	_grp_BOMB =3,
+	_grp_EXPLOSION=4,
+	_grp_POWERUPS =5,
 	_LAST_GRP_ID
 };
 constexpr grpId_type maxGroupId = _LAST_GRP_ID;
@@ -71,7 +80,9 @@ enum sysId : sysId_type {
 	_sys_GAMECTRL = 3,
 	_sys_FIGHTER = 4,
 	_sys_BULLET = 5,
-	_sys_NET =6,
+	_sys_NET = 6,
+	_sys_BOMB = 7, 
+	_sys_POWERUP=8,
 	// do not remove this
 	_LAST_SYS_ID
 };

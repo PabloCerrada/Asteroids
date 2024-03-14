@@ -69,6 +69,7 @@ void BulletSystem::shoot(Vector2D pos, Vector2D vel, double width, double height
 void BulletSystem::onCollision_BulletAsteroid(Entity* b)
 {
 	mngr_->setAlive(b, false);
+	
 }
 
 void BulletSystem::onRoundOver()

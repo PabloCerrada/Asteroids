@@ -11,12 +11,16 @@ PlayState::PlayState(Game* game1) {
 	sys_[_sys_GAMECTRL] = nullptr;
 	sys_[_sys_BULLET] = nullptr;
 	sys_[_sys_NET] = nullptr;
-	
+	sys_[_sys_BOMB] = nullptr;
+	sys_[_sys_POWERUP] = nullptr;
+
 	bulletSystem = addSystem<BulletSystem>();
 	fighterSystem = addSystem<FighterSystem>();
 	renderSystem = addSystem<RenderSystem>();
 	asteroidSystem = addSystem<AsteroidsSystem>();
 	collisionSystem = addSystem<CollisionSystem>();
+	bombSystem = addSystem<BombSystem>();
+	powerUp = addSystem<powerUpSystem>();
 	gameCrtlSystem = addSystem<GameCtrlSystem>(game);
 
 
@@ -32,7 +36,8 @@ PlayState::~PlayState()
 	removeSystem<AsteroidsSystem>();
 	removeSystem<CollisionSystem>();
 	removeSystem<GameCtrlSystem>();
-
+	removeSystem<BombSystem>();
+	removeSystem<powerUpSystem>();
 }
 void PlayState::update() {
 	if (!gameover) {
@@ -40,7 +45,9 @@ void PlayState::update() {
 		renderSystem->update();
 		bulletSystem->update();
 		asteroidSystem->update();
+		bombSystem->update();
 		collisionSystem->update();
+		powerUp->update();
 		gameCrtlSystem->update();
 	}
 }

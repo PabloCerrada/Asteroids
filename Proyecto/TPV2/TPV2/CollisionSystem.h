@@ -3,7 +3,7 @@
 #include "ecs.h"
 #include "Transform.h"
 #include "src/utils/Collisions.h"
-
+#include "powerUpComponent.h"
 class Manager;
 class CollisionSystem : public System
 {
@@ -12,6 +12,8 @@ private:
 	SoundEffect* soundCrash;
 	Transform* trFighter;
 	Transform* trFighter2;
+	bool canCollide = true;
+	float delay = 0;
 	// Para gestionar el mensaje de que ha acabado una ronda. Desactivar el sistema.
 	void onRoundOver();
 

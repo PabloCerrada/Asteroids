@@ -20,9 +20,13 @@ void AsteroidsSystem::receive(const Message& m)
 	case _msg_ROUNDOVER:
 		onRoundOver();
 		break;
+	case _msg_COLLISIONEXPLOSIONASTEROID:
+		onCollision_ExplosionAsteroid(m.explosion.asteroid);
 	case _msg_ONCOLLISIONBULLETASTEROID:
 		onCollision_AsteroidBullet(m.colision.asteroid);
 		break;
+	case _msg_COLLISIONBOMBASTEROID:
+		onCollision_ExplosionAsteroid(m.colision.asteroid);
 	default:
 		break;
 	}
@@ -32,6 +36,8 @@ void AsteroidsSystem::receive(const Message& m)
 void AsteroidsSystem::update()
 {
 	if (active_) {
+
+		cout << numOfAsteroids_<<endl;
 		for (auto e : mngr_->getEntitiesByGroup(_grp_ASTEROIDS))
 		{
 			auto tr = mngr_->getComponent<Transform>(e);
@@ -72,6 +78,16 @@ void AsteroidsSystem::update()
 			m.id = _msg_WIN;
 			mngr_->send(m);
 		}
+
+		if (killAsteroid>5)
+		{
+			killAsteroid = 0;
+			Message m;
+			m.id = _msg_CREATEPOWERUP;
+			mngr_->send(m);
+
+		}
+		canCheck = true;
 	}
 }
 void AsteroidsSystem::onRoundStart()
@@ -80,36 +96,51 @@ void AsteroidsSystem::onRoundStart()
     lastRespawnTime = sdlutils().currRealTime();
 	createAsteroids(10);
 }
+
+
+void AsteroidsSystem::onCollision_ExplosionAsteroid(Entity* a)
+{
+	killAsteroid++;
+	numOfAsteroids_--;
+	mngr_->setAlive(a, false);
+	canCheck = false;
+}
+
 void AsteroidsSystem::onCollision_AsteroidBullet(Entity* ent)
 {
-	int gen = mngr_->getComponent<Generations>(ent)->getGenerations();
-	if (gen > 1 && mngr_->getEntities().size() < 29) {
-		for (int i = 0; i < 2; i++) {
-			Transform* tr = mngr_->getComponent<Transform>(ent);
-			++numOfAsteroids_;
-			Entity* asteroid = mngr_->addEntity(_grp_ASTEROIDS);
-			int newGen = gen - 1;
+	if (canCheck)
+	{
+		int gen = mngr_->getComponent<Generations>(ent)->getGenerations();
+		if (gen > 1 && mngr_->getEntities().size() < 29) {
+			for (int i = 0; i < 2; i++) {
+				Transform* tr = mngr_->getComponent<Transform>(ent);
+				++numOfAsteroids_;
+				Entity* asteroid = mngr_->addEntity(_grp_ASTEROIDS);
+				int newGen = gen - 1;
 
-			mngr_->addComponent<Generations>(asteroid, newGen);
+				mngr_->addComponent<Generations>(asteroid, newGen);
 
-			int newWidth = (tr->getW() / gen) * newGen, newHeight = (tr->getH() / gen) * newGen;
+				int newWidth = (tr->getW() / gen) * newGen, newHeight = (tr->getH() / gen) * newGen;
 
-			auto r = sdlutils().rand().nextInt(0, 360);
-			auto pos = tr->getPos();
-			auto vel = tr->getVel().rotate(r) * 1.1f;
+				auto r = sdlutils().rand().nextInt(0, 360);
+				auto pos = tr->getPos();
+				auto vel = tr->getVel().rotate(r) * 1.1f;
 
-			mngr_->addComponent<Transform>(asteroid, pos, vel, newWidth, newHeight, r);
+				mngr_->addComponent<Transform>(asteroid, pos, vel, newWidth, newHeight, r);
 
-			if (sdlutils().rand().nextInt(0, 10) < 3)
-			{
-				mngr_->addComponent<Follow>(asteroid);
+				if (sdlutils().rand().nextInt(0, 10) < 3)
+				{
+					mngr_->addComponent<Follow>(asteroid);
+				}
+
+				mngr_->addComponent<FramedImage>(asteroid, ASTEROID_WIDTH_FRAME, ASTEROID_HEIGHT_FRAME, ASTEROID_NFRAMES);
 			}
-
-			mngr_->addComponent<FramedImage>(asteroid, ASTEROID_WIDTH_FRAME, ASTEROID_HEIGHT_FRAME, ASTEROID_NFRAMES);
 		}
+		--numOfAsteroids_;
+		killAsteroid++;
+		mngr_->setAlive(ent, false);
+
 	}
-	--numOfAsteroids_;
-	mngr_->setAlive(ent, false);	
 }
 	
 

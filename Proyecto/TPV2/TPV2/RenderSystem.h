@@ -29,6 +29,8 @@ private:
 	Texture* bulletTexture;
 	Texture* asteroidTexture;
 	Texture* asteroidGoldTexture;
+	Texture* bombTexture;
+	Texture* powerUpTexture;
 	Transform* fighterTransform;
 	Transform* fighterTransform2;
 	Font* font;

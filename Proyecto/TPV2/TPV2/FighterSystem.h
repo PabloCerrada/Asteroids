@@ -17,8 +17,12 @@ private:
 	Entity* fighter;
 	Entity* fighter2;
 
+	float powerUpDuratiion;
+	bool powerUp = false;
 	float lastShootTime;
 	bool canShoot = false;
+	float cadence = 1;
+	int actualPowerUp = 0;
 	Transform* trFighter;
 	Transform* trFighter2;
 	float acceleration = 0.2f, speedLimit = 3.0f;
@@ -28,6 +32,10 @@ private:
 	// hace falta desactivar la entidad (no dibujarla si el juego está parado).
 	void onCollision_FighterAsteroid();
 
+
+	void powerUpAction(int num);
+
+	void finishPowerUp();
 
 	void fighterActions(Entity* ent_);
 	// Para gestionar el mensaje de que ha acabado una ronda. Desactivar el sistema.
