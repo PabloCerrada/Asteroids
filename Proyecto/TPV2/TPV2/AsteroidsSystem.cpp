@@ -36,8 +36,6 @@ void AsteroidsSystem::receive(const Message& m)
 void AsteroidsSystem::update()
 {
 	if (active_) {
-
-		cout << numOfAsteroids_<<endl;
 		for (auto e : mngr_->getEntitiesByGroup(_grp_ASTEROIDS))
 		{
 			auto tr = mngr_->getComponent<Transform>(e);

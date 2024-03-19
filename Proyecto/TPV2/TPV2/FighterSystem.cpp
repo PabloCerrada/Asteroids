@@ -182,13 +182,10 @@ void FighterSystem:: fighterActions(Entity* ent_)
 
 	if (powerUp)
 	{
-	//	cout << "STARTED" << endl;
 		powerUpDuratiion++;
 	}
 	if (powerUpDuratiion>=500)
-	{
-		
-		//cout << "FINISHED" << endl;
+	{	
 		finishPowerUp();
 	}
 	// Deceleration Component
